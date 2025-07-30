@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.startproject.mapper.HomePagePolicyMapper">
+
+    <resultMap type="HomePagePolicy" id="HomePagePolicyResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="introduction"    column="introduction"    />
+        <result property="link"    column="link"    />
+        <result property="origin"    column="origin"    />
+        <result property="picture"    column="picture"    />
+    </resultMap>
+
+    <sql id="selectHomePagePolicyVo">
+        select id, type, title, introduction, link, origin, picture from home_page_policy
+    </sql>
+
+    <select id="selectHomePagePolicyList" parameterType="HomePagePolicy" resultMap="HomePagePolicyResult">
+        <include refid="selectHomePagePolicyVo"/>
+            <where>
+                <if test="title!= null  and title!= ''"> or title like concat('%', #{title}, '%')</if>
+                <if test="introduction!= null  and introduction!= ''"> or introduction like concat('%', #{introduction}, '%')</if>
+                <if test="origin!= null  and origin!= ''"> or origin like concat('%', #{origin}, '%')</if>
+            </where>
+
+    </select>
+
+    <select id="selectHomePagePolicyById" parameterType="Long" resultMap="HomePagePolicyResult">
+        <include refid="selectHomePagePolicyVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertHomePagePolicy" parameterType="HomePagePolicy" useGeneratedKeys="true" >
+        insert into home_page_policy
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">id,</if>
+        <if test="title != null">title,</if>
+        <if test="introduction != null">introduction,</if>
+        <if test="link != null">link,</if>
+        <if test="origin != null">origin,</if>
+        <if test="picture != null">picture,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">#{id},</if>
+        <if test="title != null">#{title},</if>
+        <if test="introduction != null">#{introduction},</if>
+        <if test="link != null">#{link},</if>
+        <if test="origin != null">#{origin},</if>
+        <if test="picture != null">#{picture},</if>
+    </trim>
+    </insert>
+    <update id="updateHomePagePolicy" parameterType="HomePagePolicy">
+        update home_page_policy
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title!= null">title=#{title},</if>
+            <if test="introduction!= null">introduction=#{introduction},</if>
+            <if test="link!= null">link=#{link},</if>
+            <if test="origin!= null">origin=#{origin},</if>
+            <if test="picture!= null">picture=#{picture},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteHomePagePolicyById" parameterType="Long">
+        delete from home_page_policy where id = #{id}
+    </delete>
+
+    <delete id="deleteHomePagePolicyByIds" parameterType="String">
+        delete from home_page_policy where id in
+        <foreach item="id" collection="array" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>
+
+
+
+
+
+
+
+
+            
+

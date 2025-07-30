@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.startproject.mapper.ProjectFinalReportMapper">
+    
+    <resultMap type="ProjectFinalReport" id="ProjectFinalReportResult">
+        <result property="id"    column="id"    />
+        <result property="projectNo"    column="project_no"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="header"    column="header"    />
+        <result property="reviewOpinions"    column="review_opinions"    />
+        <result property="costCompliance"    column="cost_compliance"    />
+        <result property="viability"    column="viability"    />
+        <result property="conclusions"    column="conclusions"    />
+        <result property="files"    column="files"    />
+        <result property="projectId"    column="project_id"    />
+        <result property="company"    column="company"    />
+        <result property="headerRecommendations"    column="header_recommendations"    />
+        <result property="projectHeader"    column="project_header"    />
+        <result property="projectHeaderDate"    column="project_header_date"    />
+        <result property="managerRecommendations"    column="manager_recommendations"    />
+        <result property="manager"    column="manager"    />
+        <result property="managerDate"    column="manager_date"    />
+    </resultMap>
+
+    <sql id="selectProjectFinalReportVo">
+        select id, project_no, project_name, header, review_opinions, cost_compliance, viability, conclusions, files, project_id, company, header_recommendations, project_header, project_header_date, manager_recommendations, manager, manager_date from project_final_report
+    </sql>
+
+    <select id="selectProjectFinalReportList" parameterType="ProjectFinalReport" resultMap="ProjectFinalReportResult">
+        <include refid="selectProjectFinalReportVo"/>
+        <where>  
+            <if test="projectNo != null  and projectNo != ''"> and project_no like concat('%', #{projectNo}, '%')</if>
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+            <if test="header != null  and header != ''"> and header like concat('%', #{header}, '%')</if>
+            <if test="reviewOpinions != null  and reviewOpinions != ''"> and review_opinions = #{reviewOpinions}</if>
+            <if test="costCompliance != null  and costCompliance != ''"> and cost_compliance = #{costCompliance}</if>
+            <if test="viability != null  and viability != ''"> and viability = #{viability}</if>
+            <if test="conclusions != null  and conclusions != ''"> and conclusions = #{conclusions}</if>
+            <if test="files != null  and files != ''"> and files = #{files}</if>
+            <if test="projectId != null "> and project_id = #{projectId}</if>
+            <if test="company != null "> and company = #{company}</if>
+            <if test="headerRecommendations != null  and headerRecommendations != ''"> and header_recommendations = #{headerRecommendations}</if>
+            <if test="projectHeader!= null  and projectHeader!= ''"> and project_header = #{projectHeader}</if>
+            <if test="projectHeaderDate!= null "> and project_header_date = #{projectHeaderDate}</if>
+            <if test="managerRecommendations!= null  and managerRecommendations!= ''"> and manager_recommendations = #{managerRecommendations}</if>
+            <if test="manager!= null  and manager!= ''"> and manager = #{manager}</if>
+            <if test="managerDate!= null "> and manager_date = #{managerDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectFinalReportById" parameterType="Long" resultMap="ProjectFinalReportResult">
+        <include refid="selectProjectFinalReportVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertProjectFinalReport" parameterType="ProjectFinalReport" useGeneratedKeys="true" keyProperty="id">
+        insert into project_final_report
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectNo != null">project_no,</if>
+            <if test="projectName != null and projectName != ''">project_name,</if>
+            <if test="header != null and header != ''">header,</if>
+            <if test="reviewOpinions != null">review_opinions,</if>
+            <if test="costCompliance != null">cost_compliance,</if>
+            <if test="viability != null">viability,</if>
+            <if test="conclusions != null">conclusions,</if>
+            <if test="files != null">files,</if>
+            <if test="projectId != null">project_id,</if>
+            <if test="company != null">company,</if>
+            <if test="headerRecommendations!= null">header_recommendations,</if>
+            <if test="projectHeader!= null">project_header,</if>
+            <if test="projectHeaderDate!= null">project_header_date,</if>
+            <if test="managerRecommendations!= null">manager_recommendations,</if>
+            <if test="manager!= null">manager,</if>
+            <if test="managerDate!= null">manager_date</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectNo != null">#{projectNo},</if>
+            <if test="projectName != null and projectName != ''">#{projectName},</if>
+            <if test="header != null and header != ''">#{header},</if>
+            <if test="reviewOpinions != null">#{reviewOpinions},</if>
+            <if test="costCompliance != null">#{costCompliance},</if>
+            <if test="viability != null">#{viability},</if>
+            <if test="conclusions != null">#{conclusions},</if>
+            <if test="files != null">#{files},</if>
+            <if test="projectId != null">#{projectId},</if>
+            <if test="company != null">#{company},</if>
+            <if test="headerRecommendations!= null">#{headerRecommendations},</if>
+            <if test="projectHeader!= null">#{projectHeader},</if>
+            <if test="projectHeaderDate!= null">#{projectHeaderDate},</if>
+            <if test="managerRecommendations!= null">#{managerRecommendations},</if>
+            <if test="manager!= null">#{manager},</if>
+            <if test="managerDate!= null">#{managerDate}</if>
+         </trim>
+    </insert>
+
+    <update id="updateProjectFinalReport" parameterType="ProjectFinalReport">
+        update project_final_report
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectNo != null">project_no = #{projectNo},</if>
+            <if test="projectName != null and projectName != ''">project_name = #{projectName},</if>
+            <if test="header != null and header != ''">header = #{header},</if>
+            <if test="reviewOpinions != null">review_opinions = #{reviewOpinions},</if>
+            <if test="costCompliance != null">cost_compliance = #{costCompliance},</if>
+            <if test="viability != null">viability = #{viability},</if>
+            <if test="conclusions != null">conclusions = #{conclusions},</if>
+            <if test="files != null">files = #{files},</if>
+            <if test="projectId != null">project_id = #{projectId},</if>
+            <if test="company != null">company = #{company},</if>
+            <if test="headerRecommendations!= null">header_recommendations = #{headerRecommendations},</if>
+            <if test="projectHeader!= null">project_header = #{projectHeader},</if>
+            <if test="projectHeaderDate!= null">project_header_date = #{projectHeaderDate},</if>
+            <if test="managerRecommendations!= null">manager_recommendations = #{managerRecommendations},</if>
+            <if test="manager!= null">manager = #{manager},</if>
+            <if test="managerDate!= null">manager_date = #{managerDate}</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProjectFinalReportById" parameterType="Long">
+        delete from project_final_report where id = #{id}
+    </delete>
+
+    <delete id="deleteProjectFinalReportByIds" parameterType="String">
+        delete from project_final_report where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectProjectFinalReportListByProjectId" parameterType="Long">
+        select * from project_final_report where project_id = #{projectId}
+    </select>
+</mapper>

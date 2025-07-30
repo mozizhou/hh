@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.startproject.mapper.RdEmpHoursMainMapper">
+    
+    <resultMap type="RdEmpHoursMain" id="RdEmpHoursMainResult">
+        <result property="id"    column="id"    />
+        <result property="workYear"    column="work_year"    />
+        <result property="workMonth"    column="work_month"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="empName"    column="emp_name"    />
+        <result property="monthWorkHours"    column="month_work_hours"    />
+        <result property="projectWorkHours"    column="project_work_hours"    />
+        <result property="jobPost"    column="job_post"    />
+        <result property="empType"    column="emp_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="company"    column="company"    />
+        <result property="hasChildren"    column="has_children"    />
+        <result property="day1"    column="day_1"    />
+        <result property="day2"    column="day_2"    />
+        <result property="day3"    column="day_3"    />
+        <result property="day4"    column="day_4"    />
+        <result property="day5"    column="day_5"    />
+        <result property="day6"    column="day_6"    />
+        <result property="day7"    column="day_7"    />
+        <result property="day8"    column="day_8"    />
+        <result property="day9"    column="day_9"    />
+        <result property="day10"    column="day_10"    />
+        <result property="day11"    column="day_11"    />
+        <result property="day12"    column="day_12"    />
+        <result property="day13"    column="day_13"    />
+        <result property="day14"    column="day_14"    />
+        <result property="day15"    column="day_15"    />
+        <result property="day16"    column="day_16"    />
+        <result property="day17"    column="day_17"    />
+        <result property="day18"    column="day_18"    />
+        <result property="day19"    column="day_19"    />
+        <result property="day20"    column="day_20"    />
+        <result property="day21"    column="day_21"    />
+        <result property="day22"    column="day_22"    />
+        <result property="day23"    column="day_23"    />
+        <result property="day24"    column="day_24"    />
+        <result property="day25"    column="day_25"    />
+        <result property="day26"    column="day_26"    />
+        <result property="day27"    column="day_27"    />
+        <result property="day28"    column="day_28"    />
+        <result property="day29"    column="day_29"    />
+        <result property="day30"    column="day_30"    />
+        <result property="day31"    column="day_31"    />
+    </resultMap>
+
+    <sql id="selectRdEmpHoursMainVo">
+        select id, work_year, work_month, project_name, emp_name, month_work_hours, project_work_hours, job_post, emp_type, create_time, update_time, company, day_1, day_2, day_3, day_4, day_5, day_6, day_7, day_8, day_9, day_10, day_11, day_12, day_13, day_14, day_15, day_16, day_17, day_18, day_19, day_20, day_21, day_22, day_23, day_24, day_25, day_26, day_27, day_28, day_29, day_30, day_31 from rd_emp_hours_main
+    </sql>
+
+    <select id="selectRdEmpHoursMainList" parameterType="RdEmpHoursMain" resultMap="RdEmpHoursMainResult">
+        <include refid="selectRdEmpHoursMainVo"/>
+        <where>  
+            <if test="workYear != null "> and work_year = #{workYear}</if>
+            <if test="workMonth != null "> and work_month = #{workMonth}</if>
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+            <if test="empName != null  and empName != ''"> and emp_name like concat('%', #{empName}, '%')</if>
+            <if test="monthWorkHours != null "> and month_work_hours = #{monthWorkHours}</if>
+            <if test="projectWorkHours != null "> and project_work_hours = #{projectWorkHours}</if>
+            <if test="jobPost != null  and jobPost != ''"> and job_post = #{jobPost}</if>
+            <if test="empType != null  and empType != ''"> and emp_type = #{empType}</if>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+            <if test="day1 != null "> and day_1 = #{day1}</if>
+            <if test="day2 != null "> and day_2 = #{day2}</if>
+            <if test="day3 != null "> and day_3 = #{day3}</if>
+            <if test="day4 != null "> and day_4 = #{day4}</if>
+            <if test="day5 != null "> and day_5 = #{day5}</if>
+            <if test="day6 != null "> and day_6 = #{day6}</if>
+            <if test="day7 != null "> and day_7 = #{day7}</if>
+            <if test="day8 != null "> and day_8 = #{day8}</if>
+            <if test="day9 != null "> and day_9 = #{day9}</if>
+            <if test="day10 != null "> and day_10 = #{day10}</if>
+            <if test="day11 != null "> and day_11 = #{day11}</if>
+            <if test="day12 != null "> and day_12 = #{day12}</if>
+            <if test="day13 != null "> and day_13 = #{day13}</if>
+            <if test="day14 != null "> and day_14 = #{day14}</if>
+            <if test="day15 != null "> and day_15 = #{day15}</if>
+            <if test="day16 != null "> and day_16 = #{day16}</if>
+            <if test="day17 != null "> and day_17 = #{day17}</if>
+            <if test="day18 != null "> and day_18 = #{day18}</if>
+            <if test="day19 != null "> and day_19 = #{day19}</if>
+            <if test="day20 != null "> and day_20 = #{day20}</if>
+            <if test="day21 != null "> and day_21 = #{day21}</if>
+            <if test="day22 != null "> and day_22 = #{day22}</if>
+            <if test="day23 != null "> and day_23 = #{day23}</if>
+            <if test="day24 != null "> and day_24 = #{day24}</if>
+            <if test="day25 != null "> and day_25 = #{day25}</if>
+            <if test="day26 != null "> and day_26 = #{day26}</if>
+            <if test="day27 != null "> and day_27 = #{day27}</if>
+            <if test="day28 != null "> and day_28 = #{day28}</if>
+            <if test="day29 != null "> and day_29 = #{day29}</if>
+            <if test="day30 != null "> and day_30 = #{day30}</if>
+            <if test="day31 != null "> and day_31 = #{day31}</if>
+        </where>
+    </select>
+
+    <select id="getYears" parameterType="String" resultMap="RdEmpHoursMainResult">
+        select  company,work_year,sum(month_work_hours) as month_work_hours,sum(project_work_hours) as project_work_hours,1 as has_children  from rd_emp_hours_main
+        <where>
+            <if test="company != null and company != ''"> and company = #{company}</if>
+            <if test="workYear != null "> and work_year = #{workYear}</if>
+            <if test="workMonth != null "> and work_month = #{workMonth}</if>
+            <if test="projectName != null  and projectName != ''"> and project_name =#{projectName}</if>
+            <if test="empName != null  and empName != ''"> and emp_name like concat('%', #{empName}, '%')</if>
+        </where>
+        group by company,work_year
+        order by work_year desc
+    </select>
+    <select id="getMonths" parameterType="RdEmpHoursMain" resultMap="RdEmpHoursMainResult">
+        select  company,work_year,work_month,sum(month_work_hours) as month_work_hours,sum(project_work_hours) as project_work_hours,1 as has_children  from rd_emp_hours_main
+        <where>
+            <if test="company != null and company != ''"> and company = #{company}</if>
+            <if test="workYear != null "> and work_year = #{workYear}</if>
+            <if test="workMonth != null "> and work_month = #{workMonth}</if>
+            <if test="projectName != null  and projectName != ''"> and project_name =#{projectName}</if>
+            <if test="empName != null  and empName != ''"> and emp_name like concat('%', #{empName}, '%')</if>
+        </where>
+        group by company,work_year,work_month
+        order by work_year desc,work_month desc
+    </select>
+    <select id="getprojectNames" parameterType="RdEmpHoursMain" resultMap="RdEmpHoursMainResult">
+        select  company,work_year,work_month, project_name ,sum(month_work_hours) as month_work_hours,sum(project_work_hours) as project_work_hours,1 as has_children  from rd_emp_hours_main
+        <where>
+            <if test="company != null and company != ''"> and company = #{company}</if>
+            <if test="workYear != null "> and work_year = #{workYear}</if>
+            <if test="workMonth != null "> and work_month = #{workMonth}</if>
+            <if test="projectName != null  and projectName != ''"> and project_name =#{projectName}</if>
+            <if test="empName != null  and empName != ''"> and emp_name like concat('%', #{empName}, '%')</if>
+        </where>
+        group by company,work_year,work_month,project_name
+        order by work_year desc,work_month desc
+    </select>
+    
+    <select id="selectRdEmpHoursMainById" parameterType="String" resultMap="RdEmpHoursMainResult">
+        <include refid="selectRdEmpHoursMainVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertRdEmpHoursMain" parameterType="RdEmpHoursMain" useGeneratedKeys="true" keyProperty="id">
+        insert into rd_emp_hours_main
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="workYear != null">work_year,</if>
+            <if test="workMonth != null">work_month,</if>
+            <if test="projectName != null and projectName != ''">project_name,</if>
+            <if test="empName != null and empName != ''">emp_name,</if>
+            <if test="monthWorkHours != null">month_work_hours,</if>
+            <if test="projectWorkHours != null">project_work_hours,</if>
+            <if test="jobPost != null">job_post,</if>
+            <if test="empType != null">emp_type,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="company != null and company != ''">company,</if>
+            <if test="day1 != null">day_1,</if>
+            <if test="day2 != null">day_2,</if>
+            <if test="day3 != null">day_3,</if>
+            <if test="day4 != null">day_4,</if>
+            <if test="day5 != null">day_5,</if>
+            <if test="day6 != null">day_6,</if>
+            <if test="day7 != null">day_7,</if>
+            <if test="day8 != null">day_8,</if>
+            <if test="day9 != null">day_9,</if>
+            <if test="day10 != null">day_10,</if>
+            <if test="day11 != null">day_11,</if>
+            <if test="day12 != null">day_12,</if>
+            <if test="day13 != null">day_13,</if>
+            <if test="day14 != null">day_14,</if>
+            <if test="day15 != null">day_15,</if>
+            <if test="day16 != null">day_16,</if>
+            <if test="day17 != null">day_17,</if>
+            <if test="day18 != null">day_18,</if>
+            <if test="day19 != null">day_19,</if>
+            <if test="day20 != null">day_20,</if>
+            <if test="day21 != null">day_21,</if>
+            <if test="day22 != null">day_22,</if>
+            <if test="day23 != null">day_23,</if>
+            <if test="day24 != null">day_24,</if>
+            <if test="day25 != null">day_25,</if>
+            <if test="day26 != null">day_26,</if>
+            <if test="day27 != null">day_27,</if>
+            <if test="day28 != null">day_28,</if>
+            <if test="day29 != null">day_29,</if>
+            <if test="day30 != null">day_30,</if>
+            <if test="day31 != null">day_31,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="workYear != null">#{workYear},</if>
+            <if test="workMonth != null">#{workMonth},</if>
+            <if test="projectName != null and projectName != ''">#{projectName},</if>
+            <if test="empName != null and empName != ''">#{empName},</if>
+            <if test="monthWorkHours != null">#{monthWorkHours},</if>
+            <if test="projectWorkHours != null">#{projectWorkHours},</if>
+            <if test="jobPost != null">#{jobPost},</if>
+            <if test="empType != null">#{empType},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="company != null and company != ''">#{company},</if>
+            <if test="day1 != null">#{day1},</if>
+            <if test="day2 != null">#{day2},</if>
+            <if test="day3 != null">#{day3},</if>
+            <if test="day4 != null">#{day4},</if>
+            <if test="day5 != null">#{day5},</if>
+            <if test="day6 != null">#{day6},</if>
+            <if test="day7 != null">#{day7},</if>
+            <if test="day8 != null">#{day8},</if>
+            <if test="day9 != null">#{day9},</if>
+            <if test="day10 != null">#{day10},</if>
+            <if test="day11 != null">#{day11},</if>
+            <if test="day12 != null">#{day12},</if>
+            <if test="day13 != null">#{day13},</if>
+            <if test="day14 != null">#{day14},</if>
+            <if test="day15 != null">#{day15},</if>
+            <if test="day16 != null">#{day16},</if>
+            <if test="day17 != null">#{day17},</if>
+            <if test="day18 != null">#{day18},</if>
+            <if test="day19 != null">#{day19},</if>
+            <if test="day20 != null">#{day20},</if>
+            <if test="day21 != null">#{day21},</if>
+            <if test="day22 != null">#{day22},</if>
+            <if test="day23 != null">#{day23},</if>
+            <if test="day24 != null">#{day24},</if>
+            <if test="day25 != null">#{day25},</if>
+            <if test="day26 != null">#{day26},</if>
+            <if test="day27 != null">#{day27},</if>
+            <if test="day28 != null">#{day28},</if>
+            <if test="day29 != null">#{day29},</if>
+            <if test="day30 != null">#{day30},</if>
+            <if test="day31 != null">#{day31},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRdEmpHoursMain" parameterType="RdEmpHoursMain">
+        update rd_emp_hours_main
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="workYear != null">work_year = #{workYear},</if>
+            <if test="workMonth != null">work_month = #{workMonth},</if>
+            <if test="projectName != null and projectName != ''">project_name = #{projectName},</if>
+            <if test="empName != null and empName != ''">emp_name = #{empName},</if>
+            <if test="monthWorkHours != null">month_work_hours = #{monthWorkHours},</if>
+            <if test="projectWorkHours != null">project_work_hours = #{projectWorkHours},</if>
+            <if test="jobPost != null">job_post = #{jobPost},</if>
+            <if test="empType != null">emp_type = #{empType},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="company != null and company != ''">company = #{company},</if>
+            <if test="day1 != null">day_1 = #{day1},</if>
+            <if test="day2 != null">day_2 = #{day2},</if>
+            <if test="day3 != null">day_3 = #{day3},</if>
+            <if test="day4 != null">day_4 = #{day4},</if>
+            <if test="day5 != null">day_5 = #{day5},</if>
+            <if test="day6 != null">day_6 = #{day6},</if>
+            <if test="day7 != null">day_7 = #{day7},</if>
+            <if test="day8 != null">day_8 = #{day8},</if>
+            <if test="day9 != null">day_9 = #{day9},</if>
+            <if test="day10 != null">day_10 = #{day10},</if>
+            <if test="day11 != null">day_11 = #{day11},</if>
+            <if test="day12 != null">day_12 = #{day12},</if>
+            <if test="day13 != null">day_13 = #{day13},</if>
+            <if test="day14 != null">day_14 = #{day14},</if>
+            <if test="day15 != null">day_15 = #{day15},</if>
+            <if test="day16 != null">day_16 = #{day16},</if>
+            <if test="day17 != null">day_17 = #{day17},</if>
+            <if test="day18 != null">day_18 = #{day18},</if>
+            <if test="day19 != null">day_19 = #{day19},</if>
+            <if test="day20 != null">day_20 = #{day20},</if>
+            <if test="day21 != null">day_21 = #{day21},</if>
+            <if test="day22 != null">day_22 = #{day22},</if>
+            <if test="day23 != null">day_23 = #{day23},</if>
+            <if test="day24 != null">day_24 = #{day24},</if>
+            <if test="day25 != null">day_25 = #{day25},</if>
+            <if test="day26 != null">day_26 = #{day26},</if>
+            <if test="day27 != null">day_27 = #{day27},</if>
+            <if test="day28 != null">day_28 = #{day28},</if>
+            <if test="day29 != null">day_29 = #{day29},</if>
+            <if test="day30 != null">day_30 = #{day30},</if>
+            <if test="day31 != null">day_31 = #{day31},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRdEmpHoursMainById" parameterType="String">
+        delete from rd_emp_hours_main where id = #{id}
+    </delete>
+
+    <delete id="deleteRdEmpHoursMainByIds" parameterType="String">
+        delete from rd_emp_hours_main where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

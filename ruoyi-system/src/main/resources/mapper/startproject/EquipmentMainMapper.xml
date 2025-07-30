@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.startproject.mapper.EquipmentMainMapper">
+    
+    <resultMap type="EquipmentMain" id="EquipmentMainResult">
+        <result property="id"    column="id"    />
+        <result property="company"    column="company"    />
+        <result property="mouth"    column="mouth"    />
+        <result property="equipmentName"    column="equipment_name"    />
+        <result property="specification"    column="specification"    />
+        <result property="equipmentNo"    column="equipment_no"    />
+        <result property="place"    column="place"    />
+        <result property="year"    column="year"    />
+    </resultMap>
+
+    <sql id="selectEquipmentMainVo">
+        select id, company, mouth, equipment_name, specification, equipment_no, place, year from equipment_main
+    </sql>
+
+    <select id="selectEquipmentMainList" parameterType="EquipmentMain" resultMap="EquipmentMainResult">
+        <include refid="selectEquipmentMainVo"/>
+        <where>
+            <if test="year !=null">and year = #{year}</if>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+            <if test="mouth != null "> and mouth = #{mouth}</if>
+            <if test="equipmentName != null  and equipmentName != ''"> and equipment_name like concat('%', #{equipmentName}, '%')</if>
+            <if test="specification != null  and specification != ''"> and specification = #{specification}</if>
+            <if test="equipmentNo != null  and equipmentNo != ''"> and equipment_no like concat('%', #{equipmentNo}, '%')</if>
+            <if test="place != null  and place != ''"> and place = #{place}</if>
+        </where>
+    </select>
+    
+    <select id="selectEquipmentMainById" parameterType="Long" resultMap="EquipmentMainResult">
+        <include refid="selectEquipmentMainVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertEquipmentMain" parameterType="EquipmentMain" useGeneratedKeys="true" keyProperty="id">
+        insert into equipment_main
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="company != null and company != ''">company,</if>
+            <if test="mouth != null">mouth,</if>
+            <if test="equipmentName != null and equipmentName != ''">equipment_name,</if>
+            <if test="specification != null">specification,</if>
+            <if test="equipmentNo != null and equipmentNo != ''">equipment_no,</if>
+            <if test="place != null">place,</if>
+            <if test="year != null">year,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="company != null and company != ''">#{company},</if>
+            <if test="mouth != null">#{mouth},</if>
+            <if test="equipmentName != null and equipmentName != ''">#{equipmentName},</if>
+            <if test="specification != null">#{specification},</if>
+            <if test="equipmentNo != null and equipmentNo != ''">#{equipmentNo},</if>
+            <if test="place != null">#{place},</if>
+            <if test="year != null">#{year},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEquipmentMain" parameterType="EquipmentMain">
+        update equipment_main
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="company != null and company != ''">company = #{company},</if>
+            <if test="mouth != null">mouth = #{mouth},</if>
+            <if test="equipmentName != null and equipmentName != ''">equipment_name = #{equipmentName},</if>
+            <if test="specification != null">specification = #{specification},</if>
+            <if test="equipmentNo != null and equipmentNo != ''">equipment_no = #{equipmentNo},</if>
+            <if test="place != null">place = #{place},</if>
+            <if test="year != null">year = #{year},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEquipmentMainById" parameterType="Long">
+        delete from equipment_main where id = #{id}
+    </delete>
+
+    <delete id="deleteEquipmentMainByIds" parameterType="String">
+        delete from equipment_main where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

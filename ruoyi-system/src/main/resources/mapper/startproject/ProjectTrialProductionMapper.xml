@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.startproject.mapper.ProjectTrialProductionMapper">
+    
+    <resultMap type="ProjectTrialProduction" id="ProjectTrialProductionResult">
+        <result property="id"    column="id"    />
+        <result property="status"    column="status"    />
+        <result property="projectNo"    column="projectNo"    />
+        <result property="company"    column="company"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="equipment"    column="equipment"    />
+        <result property="prototypeStatus"    column="prototype_status"    />
+        <result property="trialProducer"    column="trial_producer"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="fileNo"    column="file_no"    />
+        <result property="department"    column="department"    />
+        <result property="fillPeople"    column="fill_people"    />
+        <result property="reviewPeople"    column="review_people"    />
+        <result property="projectId" column="project_id" />
+        <result property="unit" column="unit" />
+    </resultMap>
+
+    <sql id="selectProjectTrialProductionVo">
+        select id, status, company, quantity, equipment, prototype_status, trial_producer, create_date, project_name, file_no, department, fill_people, review_people,unit from project_trial_production
+    </sql>
+
+    <select id="selectProjectTrialProductionList" parameterType="ProjectTrialProduction" resultMap="ProjectTrialProductionResult">
+        select a.id, b.projectNo, a.status, b.company, a.quantity, a.equipment, a.project_id, a.prototype_status, a.trial_producer, a.create_date, b.projectName as project_name, a.file_no, a.department, a.fill_people, a.review_people,a.unit from project_trial_production a
+        left join start_project b on a.project_id=b.id
+        <where>
+            <if test="projectNo != null  and projectNo != ''"> and b.projectNo = #{projectNo}</if>
+            <if test="status != null  and status != ''"> and a.status = #{status}</if>
+            <if test="company != null  and company != ''"> and b.company = #{company}</if>
+            <if test="quantity != null  and quantity != ''"> and a.quantity = #{quantity}</if>
+            <if test="equipment != null  and equipment != ''"> and a.equipment = #{equipment}</if>
+            <if test="prototypeStatus != null  and prototypeStatus != ''"> and a.prototype_status = #{prototypeStatus}</if>
+            <if test="trialProducer != null  and trialProducer != ''"> and a.trial_producer = #{trialProducer}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                and date_format(a.create_date,'%Y%m%d') &gt;= date_format(#{params.beginTime},'%Y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                and date_format(a.create_date,'%Y%m%d') &lt;= date_format(#{params.endTime},'%Y%m%d')
+            </if>
+            <if test="projectName != null  and projectName != ''"> and b.projectName like concat('%', #{projectName}, '%')</if>
+            <if test="fileNo != null  and fileNo != ''"> and a.file_no = #{fileNo}</if>
+            <if test="department != null  and department != ''"> and a.department = #{department}</if>
+            <if test="fillPeople != null  and fillPeople != ''"> and a.fill_people = #{fillPeople}</if>
+            <if test="reviewPeople != null  and reviewPeople != ''"> and a.review_people = #{reviewPeople}</if>
+        </where>
+        order by a.create_date
+    </select>
+    <select id="selectProjectTrialProductionListByMain" parameterType="ProjectTrialProduction" resultMap="ProjectTrialProductionResult">
+        select  b.projectNo, b.company, a.quantity, a.equipment, a.project_id, a.trial_producer, b.projectName as project_name, a.create_date, a.unit from project_trial_production a
+        left join start_project b on a.project_id=b.id
+        <where>
+            <if test="projectId!=null and projectId!=''"> and a.project_id=#{projectId}</if>
+        </where>
+        order by a.create_date desc
+    </select>
+    
+    <select id="selectProjectTrialProductionById" parameterType="Long" resultMap="ProjectTrialProductionResult">
+        select a.id, a.status, b.company, a.quantity, a.equipment,a.project_id, a.prototype_status, a.trial_producer, a.create_date, b.projectName as project_name, a.file_no, a.department, a.fill_people, a.review_people,a.unit from project_trial_production a
+        left join start_project b on a.project_id=b.id
+        where a.id = #{id}
+    </select>
+
+    <insert id="insertProjectTrialProduction" parameterType="ProjectTrialProduction" useGeneratedKeys="true" keyProperty="id">
+        insert into project_trial_production
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="status != null and status != ''">status,</if>
+            <if test="company != null and company != ''">company,</if>
+            <if test="quantity != null and quantity != ''">quantity,</if>
+            <if test="equipment != null and equipment != ''">equipment,</if>
+            <if test="prototypeStatus != null and prototypeStatus != ''">prototype_status,</if>
+            <if test="trialProducer != null and trialProducer != ''">trial_producer,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="projectName != null and projectName != ''">project_name,</if>
+            <if test="fileNo != null and fileNo != ''">file_no,</if>
+            <if test="department != null and department != ''">department,</if>
+            <if test="fillPeople != null and fillPeople != ''">fill_people,</if>
+            <if test="reviewPeople != null and reviewPeople != ''">review_people,</if>
+            <if test="projectId != null">project_id,</if>
+            <if test="unit != null and unit != ''">unit,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="company != null and company != ''">#{company},</if>
+            <if test="quantity != null and quantity != ''">#{quantity},</if>
+            <if test="equipment != null and equipment != ''">#{equipment},</if>
+            <if test="prototypeStatus != null and prototypeStatus != ''">#{prototypeStatus},</if>
+            <if test="trialProducer != null and trialProducer != ''">#{trialProducer},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="projectName != null and projectName != ''">#{projectName},</if>
+            <if test="fileNo != null and fileNo != ''">#{fileNo},</if>
+            <if test="department != null and department != ''">#{department},</if>
+            <if test="fillPeople != null and fillPeople != ''">#{fillPeople},</if>
+            <if test="reviewPeople != null and reviewPeople != ''">#{reviewPeople},</if>
+            <if test="projectId != null">#{projectId},</if>
+            <if test="unit != null and unit != ''">#{unit},</if>
+        </trim>
+    </insert>
+
+    <update id="updateProjectTrialProduction" parameterType="ProjectTrialProduction">
+        update project_trial_production
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="company != null and company != ''">company = #{company},</if>
+            <if test="quantity != null and quantity != ''">quantity = #{quantity},</if>
+            <if test="equipment != null and equipment != ''">equipment = #{equipment},</if>
+            <if test="prototypeStatus != null and prototypeStatus != ''">prototype_status = #{prototypeStatus},</if>
+            <if test="trialProducer != null and trialProducer != ''">trial_producer = #{trialProducer},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="projectId != null"> project_id = #{projectId},</if>
+            <if test="projectName != null and projectName != ''">project_name = #{projectName},</if>
+            <if test="fileNo != null and fileNo != ''">file_no = #{fileNo},</if>
+            <if test="department != null and department != ''">department = #{department},</if>
+            <if test="fillPeople != null and fillPeople != ''">fill_people = #{fillPeople},</if>
+            <if test="reviewPeople != null and reviewPeople != ''">review_people = #{reviewPeople},</if>
+            <if test="unit != null and unit != ''">unit = #{unit},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProjectTrialProductionById" parameterType="Long">
+        delete from project_trial_production where id = #{id}
+    </delete>
+
+    <delete id="deleteProjectTrialProductionByIds" parameterType="String">
+        delete from project_trial_production where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <update id="updateStatusById"  parameterType="ProjectTrialProduction" >
+        update project_trial_production set status = #{status} where id = #{id}
+    </update>
+</mapper>

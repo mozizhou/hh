@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.startproject.mapper.ProjectTrialProductionReportMapper">
+    
+    <resultMap type="ProjectTrialProductionReport" id="ProjectTrialProductionReportResult">
+        <result property="id"    column="id"    />
+        <result property="status"    column="status"    />
+        <result property="trialid"    column="trialid"    />
+        <result property="createtime"    column="createtime"    />
+        <result property="endtime"    column="endtime"    />
+        <result property="process"    column="process"    />
+        <result property="overviewProcess"    column="overviewProcess"    />
+        <result property="result"    column="result"    />
+        <result property="conclusionsAndRecommendations"    column="conclusionsAndRecommendations"    />
+        <result property="technologyHeader"    column="technologyHeader"    />
+        <result property="thDate"    column="thDate"    />
+        <result property="headerRecommendations"    column="headerRecommendations"    />
+        <result property="projectHeader"    column="projectHeader"    />
+        <result property="projectHeaderDate"    column="projectHeaderDate"    />
+        <result property="managerRecommendations"    column="managerRecommendations"    />
+        <result property="manager"    column="manager"    />
+        <result property="managerDate"    column="managerDate"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="updatedAt"    column="updated_at"    />
+        <result property="projectId" column="projectId"/>
+        <result property="projectName" column="projectName"/>
+        <result property="company" column="company"/>
+        <result property="projectNo" column="projectNo"/>
+        <result property="trialProducer" column="trial_producer"/>
+    </resultMap>
+
+    <sql id="selectProjectTrialProductionReportVo">
+        select id, status, trialid, createtime, endtime, process, overviewProcess, result, conclusionsAndRecommendations, technologyHeader, thDate, headerRecommendations, projectHeader, projectHeaderDate, managerRecommendations, manager, managerDate, created_at, updated_at from project_trial_production_report
+    </sql>
+
+    <sql id="selectProjectTrialProductionReportDto">
+        select a.id,b.id as trialid, a.createtime, a.endtime, a.process, a.overviewProcess, a.result, a.conclusionsAndRecommendations,
+               a.technologyHeader, a.thDate, a.headerRecommendations, a.projectHeader, a.projectHeaderDate, a.managerRecommendations, a.manager, a.managerDate, a.created_at, a.updated_at
+                ,b.status,
+                b.company,
+               b.quantity,
+               c.projectName,
+               c.id as projectId,
+               c.projectNo,
+               b.trial_producer
+               from
+                 project_trial_production b
+                 left join project_trial_production_report a on a.trialid = b.id
+            left join start_project c on b.project_id = c.id
+    </sql>
+
+    <select id="selectProjectTrialProductionFinalreportByMainId" parameterType="Long"
+            resultMap="ProjectTrialProductionReportResult">
+        <include refid="selectProjectTrialProductionReportDto"/>
+        where b.id = #{id}
+    </select>
+
+    <select id="selectProjectTrialProductionFinalreportByTrialid" parameterType="Long"
+            resultMap="ProjectTrialProductionReportResult">
+        <include refid="selectProjectTrialProductionReportVo"/>
+        where trialid = #{id}
+    </select>
+
+    <select id="selectProjectTrialProductionReportList" parameterType="ProjectTrialProductionReport" resultMap="ProjectTrialProductionReportResult">
+        <include refid="selectProjectTrialProductionReportVo"/>
+        <where>  
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="trialid != null "> and trialid = #{trialid}</if>
+            <if test="createtime != null "> and createtime = #{createtime}</if>
+            <if test="endtime != null "> and endtime = #{endtime}</if>
+            <if test="process != null  and process != ''"> and process = #{process}</if>
+            <if test="overviewProcess != null  and overviewProcess != ''"> and overviewProcess = #{overviewProcess}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="conclusionsAndRecommendations != null  and conclusionsAndRecommendations != ''"> and conclusionsAndRecommendations = #{conclusionsAndRecommendations}</if>
+            <if test="technologyHeader != null  and technologyHeader != ''"> and technologyHeader = #{technologyHeader}</if>
+            <if test="thDate != null "> and thDate = #{thDate}</if>
+            <if test="headerRecommendations != null  and headerRecommendations != ''"> and headerRecommendations = #{headerRecommendations}</if>
+            <if test="projectHeader != null  and projectHeader != ''"> and projectHeader = #{projectHeader}</if>
+            <if test="projectHeaderDate != null "> and projectHeaderDate = #{projectHeaderDate}</if>
+            <if test="managerRecommendations != null  and managerRecommendations != ''"> and managerRecommendations = #{managerRecommendations}</if>
+            <if test="manager != null  and manager != ''"> and manager = #{manager}</if>
+            <if test="managerDate != null "> and managerDate = #{managerDate}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+            <if test="updatedAt != null "> and updated_at = #{updatedAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectTrialProductionReportById" parameterType="String" resultMap="ProjectTrialProductionReportResult">
+        <include refid="selectProjectTrialProductionReportVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertProjectTrialProductionReport" parameterType="ProjectTrialProductionReport" useGeneratedKeys="true" keyProperty="id">
+        insert into project_trial_production_report
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="status != null and status != ''">status,</if>
+            <if test="trialid != null">trialid,</if>
+            <if test="createtime != null">createtime,</if>
+            <if test="endtime != null">endtime,</if>
+            <if test="process != null and process != ''">process,</if>
+            <if test="overviewProcess != null and overviewProcess != ''">overviewProcess,</if>
+            <if test="result != null and result != ''">result,</if>
+            <if test="conclusionsAndRecommendations != null and conclusionsAndRecommendations != ''">conclusionsAndRecommendations,</if>
+            <if test="technologyHeader != null and technologyHeader != ''">technologyHeader,</if>
+            <if test="thDate != null">thDate,</if>
+            <if test="headerRecommendations != null and headerRecommendations != ''">headerRecommendations,</if>
+            <if test="projectHeader != null and projectHeader != ''">projectHeader,</if>
+            <if test="projectHeaderDate != null">projectHeaderDate,</if>
+            <if test="managerRecommendations != null and managerRecommendations != ''">managerRecommendations,</if>
+            <if test="manager != null and manager != ''">manager,</if>
+            <if test="managerDate != null">managerDate,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="trialid != null">#{trialid},</if>
+            <if test="createtime != null">#{createtime},</if>
+            <if test="endtime != null">#{endtime},</if>
+            <if test="process != null and process != ''">#{process},</if>
+            <if test="overviewProcess != null and overviewProcess != ''">#{overviewProcess},</if>
+            <if test="result != null and result != ''">#{result},</if>
+            <if test="conclusionsAndRecommendations != null and conclusionsAndRecommendations != ''">#{conclusionsAndRecommendations},</if>
+            <if test="technologyHeader != null and technologyHeader != ''">#{technologyHeader},</if>
+            <if test="thDate != null">#{thDate},</if>
+            <if test="headerRecommendations != null and headerRecommendations != ''">#{headerRecommendations},</if>
+            <if test="projectHeader != null and projectHeader != ''">#{projectHeader},</if>
+            <if test="projectHeaderDate != null">#{projectHeaderDate},</if>
+            <if test="managerRecommendations != null and managerRecommendations != ''">#{managerRecommendations},</if>
+            <if test="manager != null and manager != ''">#{manager},</if>
+            <if test="managerDate != null">#{managerDate},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProjectTrialProductionReport" parameterType="ProjectTrialProductionReport">
+        update project_trial_production_report
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="trialid != null">trialid = #{trialid},</if>
+            <if test="createtime != null">createtime = #{createtime},</if>
+            <if test="endtime != null">endtime = #{endtime},</if>
+            <if test="process != null and process != ''">process = #{process},</if>
+            <if test="overviewProcess != null and overviewProcess != ''">overviewProcess = #{overviewProcess},</if>
+            <if test="result != null and result != ''">result = #{result},</if>
+            <if test="conclusionsAndRecommendations != null and conclusionsAndRecommendations != ''">conclusionsAndRecommendations = #{conclusionsAndRecommendations},</if>
+            <if test="technologyHeader != null and technologyHeader != ''">technologyHeader = #{technologyHeader},</if>
+            <if test="thDate != null">thDate = #{thDate},</if>
+            <if test="headerRecommendations != null and headerRecommendations != ''">headerRecommendations = #{headerRecommendations},</if>
+            <if test="projectHeader != null and projectHeader != ''">projectHeader = #{projectHeader},</if>
+            <if test="projectHeaderDate != null">projectHeaderDate = #{projectHeaderDate},</if>
+            <if test="managerRecommendations != null and managerRecommendations != ''">managerRecommendations = #{managerRecommendations},</if>
+            <if test="manager != null and manager != ''">manager = #{manager},</if>
+            <if test="managerDate != null">managerDate = #{managerDate},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProjectTrialProductionReportById" parameterType="String">
+        delete from project_trial_production_report where id = #{id}
+    </delete>
+
+    <delete id="deleteProjectTrialProductionReportByIds" parameterType="String">
+        delete from project_trial_production_report where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

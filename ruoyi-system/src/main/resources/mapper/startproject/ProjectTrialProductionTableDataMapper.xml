@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.startproject.mapper.ProjectTrialProductionTableDataMapper">
+    
+    <resultMap type="ProjectTrialProductionTableData" id="ProjectTrialProductionTableDataResult">
+        <result property="id"    column="id"    />
+        <result property="trialid"    column="trialid"    />
+        <result property="feedbackDepartment"    column="feedbackDepartment"    />
+        <result property="issueLevel"    column="issueLevel"    />
+        <result property="causeAnalysis"    column="causeAnalysis"    />
+        <result property="descriptionProblem"    column="descriptionProblem"    />
+        <result property="temporarySolution"    column="temporarySolution"    />
+        <result property="longtermMeasures"    column="longtermMeasures"    />
+        <result property="responsibleDepartment"    column="responsibleDepartment"    />
+        <result property="responsiblePerson"    column="responsiblePerson"    />
+        <result property="plannedTime"    column="plannedTime"    />
+        <result property="latestStatus"    column="latestStatus"    />
+        <result property="actualTime"    column="actualTime"    />
+        <result property="feedbackValidators"    column="feedbackValidators"    />
+        <result property="remark"    column="remark"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="updatedAt"    column="updated_at"    />
+    </resultMap>
+
+    <sql id="selectProjectTrialProductionTableDataVo">
+        select id, trialid, feedbackDepartment, issueLevel, causeAnalysis, descriptionProblem, temporarySolution, longtermMeasures, responsibleDepartment, responsiblePerson, plannedTime, latestStatus, actualTime, feedbackValidators, remark, created_at, updated_at from project_trial_production_table_data
+    </sql>
+
+    <select id="selectProjectTrialProductionTableDataList" parameterType="ProjectTrialProductionTableData" resultMap="ProjectTrialProductionTableDataResult">
+        <include refid="selectProjectTrialProductionTableDataVo"/>
+        <where>  
+            <if test="trialid != null "> and trialid = #{trialid}</if>
+            <if test="feedbackDepartment != null  and feedbackDepartment != ''"> and feedbackDepartment = #{feedbackDepartment}</if>
+            <if test="issueLevel != null  and issueLevel != ''"> and issueLevel = #{issueLevel}</if>
+            <if test="causeAnalysis != null"> and causeAnalysis = #{causeAnalysis}</if>
+            <if test="descriptionProblem != null  and descriptionProblem != ''"> and descriptionProblem = #{descriptionProblem}</if>
+            <if test="temporarySolution != null"> and temporarySolution = #{temporarySolution}</if>
+            <if test="longtermMeasures != null"> and longtermMeasures = #{longtermMeasures}</if>
+            <if test="responsibleDepartment != null  and responsibleDepartment != ''"> and responsibleDepartment = #{responsibleDepartment}</if>
+            <if test="responsiblePerson != null  and responsiblePerson != ''"> and responsiblePerson = #{responsiblePerson}</if>
+            <if test="plannedTime != null"> and plannedTime = #{plannedTime}</if>
+            <if test="latestStatus != null  and latestStatus != ''"> and latestStatus = #{latestStatus}</if>
+            <if test="actualTime != null"> and actualTime = #{actualTime}</if>
+            <if test="feedbackValidators != null  and feedbackValidators != ''"> and feedbackValidators = #{feedbackValidators}</if>
+            <if test="createdAt != null"> and created_at = #{createdAt}</if>
+            <if test="updatedAt != null"> and updated_at = #{updatedAt}</if>
+        </where>
+    </select>
+    <select id="selectProjectTrialProductionTableDataListByMainid" parameterType="ProjectTrialProduction" resultMap="ProjectTrialProductionTableDataResult">
+        <include refid="selectProjectTrialProductionTableDataVo"/>
+        where trialid = #{id}
+    </select>
+    
+    <select id="selectProjectTrialProductionTableDataById" parameterType="Long" resultMap="ProjectTrialProductionTableDataResult">
+        <include refid="selectProjectTrialProductionTableDataVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertProjectTrialProductionTableData" parameterType="ProjectTrialProductionTableData" useGeneratedKeys="true" keyProperty="id">
+        insert into project_trial_production_table_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="trialid != null">trialid,</if>
+            <if test="feedbackDepartment != null and feedbackDepartment != ''">feedbackDepartment,</if>
+            <if test="issueLevel != null and issueLevel != ''">issueLevel,</if>
+            <if test="causeAnalysis != null">causeAnalysis,</if>
+            <if test="descriptionProblem != null and descriptionProblem != ''">descriptionProblem,</if>
+            <if test="temporarySolution != null">temporarySolution,</if>
+            <if test="longtermMeasures != null">longtermMeasures,</if>
+            <if test="responsibleDepartment != null and responsibleDepartment != ''">responsibleDepartment,</if>
+            <if test="responsiblePerson != null and responsiblePerson != ''">responsiblePerson,</if>
+            <if test="plannedTime != null">plannedTime,</if>
+            <if test="latestStatus != null and latestStatus != ''">latestStatus,</if>
+            <if test="actualTime != null">actualTime,</if>
+            <if test="feedbackValidators != null and feedbackValidators != ''">feedbackValidators,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="trialid != null">#{trialid},</if>
+            <if test="feedbackDepartment != null and feedbackDepartment != ''">#{feedbackDepartment},</if>
+            <if test="issueLevel != null and issueLevel != ''">#{issueLevel},</if>
+            <if test="causeAnalysis != null">#{causeAnalysis},</if>
+            <if test="descriptionProblem != null and descriptionProblem != ''">#{descriptionProblem},</if>
+            <if test="temporarySolution != null">#{temporarySolution},</if>
+            <if test="longtermMeasures != null">#{longtermMeasures},</if>
+            <if test="responsibleDepartment != null and responsibleDepartment != ''">#{responsibleDepartment},</if>
+            <if test="responsiblePerson != null and responsiblePerson != ''">#{responsiblePerson},</if>
+            <if test="plannedTime != null">#{plannedTime},</if>
+            <if test="latestStatus != null and latestStatus != ''">#{latestStatus},</if>
+            <if test="actualTime != null">#{actualTime},</if>
+            <if test="feedbackValidators != null and feedbackValidators != ''">#{feedbackValidators},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+         </trim>
+    </insert>
+
+    <insert id="batchInsertProjectTrialProductionTableData" parameterType="java.util.List">
+        insert into project_trial_production_table_data
+        (trialid, feedbackDepartment, issueLevel, causeAnalysis, descriptionProblem, temporarySolution, longtermMeasures,
+         responsibleDepartment, responsiblePerson, plannedTime, latestStatus, actualTime, feedbackValidators, remark,
+         created_at, updated_at)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.trialid}, #{item.feedbackDepartment}, #{item.issueLevel}, #{item.causeAnalysis}, #{item.descriptionProblem},
+             #{item.temporarySolution}, #{item.longtermMeasures}, #{item.responsibleDepartment}, #{item.responsiblePerson},
+             #{item.plannedTime}, #{item.latestStatus}, #{item.actualTime}, #{item.feedbackValidators}, #{item.remark},
+             #{item.createdAt}, #{item.updatedAt})
+        </foreach>
+    </insert>
+
+    <update id="updateProjectTrialProductionTableData" parameterType="ProjectTrialProductionTableData">
+        update project_trial_production_table_data
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="trialid != null">trialid = #{trialid},</if>
+            <if test="feedbackDepartment != null and feedbackDepartment != ''">feedbackDepartment = #{feedbackDepartment},</if>
+            <if test="issueLevel != null and issueLevel != ''">issueLevel = #{issueLevel},</if>
+            <if test="causeAnalysis != null">causeAnalysis = #{causeAnalysis},</if>
+            <if test="descriptionProblem != null and descriptionProblem != ''">descriptionProblem = #{descriptionProblem},</if>
+            <if test="temporarySolution != null">temporarySolution = #{temporarySolution},</if>
+            <if test="longtermMeasures != null">longtermMeasures = #{longtermMeasures},</if>
+            <if test="responsibleDepartment != null and responsibleDepartment != ''">responsibleDepartment = #{responsibleDepartment},</if>
+            <if test="responsiblePerson != null and responsiblePerson != ''">responsiblePerson = #{responsiblePerson},</if>
+            <if test="plannedTime != null">plannedTime = #{plannedTime},</if>
+            <if test="latestStatus != null and latestStatus != ''">latestStatus = #{latestStatus},</if>
+            <if test="actualTime != null">actualTime = #{actualTime},</if>
+            <if test="feedbackValidators != null and feedbackValidators != ''">feedbackValidators = #{feedbackValidators},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="batchUpdateProjectTrialProductionTableData" parameterType="java.util.List">
+        <foreach collection="list" item="item" separator=";">
+            update project_trial_production_table_data
+            <set>
+                trialid = #{item.trialid},
+                feedbackDepartment = #{item.feedbackDepartment},
+                issueLevel = #{item.issueLevel},
+                causeAnalysis = #{item.causeAnalysis},
+                descriptionProblem = #{item.descriptionProblem},
+                temporarySolution = #{item.temporarySolution},
+                longtermMeasures = #{item.longtermMeasures},
+                responsibleDepartment = #{item.responsibleDepartment},
+                responsiblePerson = #{item.responsiblePerson},
+                plannedTime = #{item.plannedTime},
+                latestStatus = #{item.latestStatus},
+                actualTime = #{item.actualTime},
+                feedbackValidators = #{item.feedbackValidators},
+                remark = #{item.remark},
+                updated_at = #{item.updatedAt}
+            </set>
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <delete id="deleteProjectTrialProductionTableDataById" parameterType="Long">
+        delete from project_trial_production_table_data where id = #{id}
+    </delete>
+
+    <delete id="deleteProjectTrialProductionTableDataByIds" parameterType="String">
+        delete from project_trial_production_table_data where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.startproject.mapper.ProjectTrialProductionFinalreportMapper">
+
+    <resultMap type="ProjectTrialProductionFinalreport" id="ProjectTrialProductionFinalreportResult">
+        <result property="id" column="id"/>
+        <result property="trialid" column="trialid"/>
+        <result property="feedbackDepartment" column="feedbackDepartment"/>
+        <result property="issueLevel" column="issueLevel"/>
+        <result property="causeAnalysis" column="causeAnalysis"/>
+        <result property="descriptionProblem" column="descriptionProblem"/>
+        <result property="temporarySolution" column="temporarySolution"/>
+        <result property="longtermMeasures" column="longtermMeasures"/>
+        <result property="responsibleDepartment" column="responsibleDepartment"/>
+        <result property="responsiblePerson" column="responsiblePerson"/>
+        <result property="plannedTime" column="plannedTime"/>
+        <result property="latestStatus" column="latestStatus"/>
+        <result property="actualTime" column="actualTime"/>
+        <result property="feedbackValidators" column="feedbackValidators"/>
+        <result property="beginDate" column="beginDate"/>
+        <result property="endDate" column="endDate"/>
+        <result property="createdAt" column="createdAt"/>
+        <result property="updatedAt" column="updatedAt"/>
+        <result property="projectId" column="projectId"/>
+        <result property="projectName" column="projectName"/>
+        <result property="status" column="status"/>
+        <result property="company" column="company"/>
+        <result property="projectNo" column="projectNo"/>
+        <result property="trialProducer" column="trial_producer"/>
+    </resultMap>
+
+    <sql id="selectProjectTrialProductionFinalreportVo">
+        select id,
+               trialid,
+               feedbackDepartment,
+               issueLevel,
+               causeAnalysis,
+               descriptionProblem,
+               temporarySolution,
+               longtermMeasures,
+               responsibleDepartment,
+               responsiblePerson,
+               plannedTime,
+               latestStatus,
+               actualTime,
+               feedbackValidators,
+               beginDate,
+               endDate,
+               createdAt,
+               updatedAt
+        from project_trial_production_finalreport
+    </sql>
+    <sql id="selectProjectTrialProductionFinalreportDto">
+        select a.id,
+               b.id as trialid,
+               a.feedbackDepartment,
+               a.issueLevel,
+               a.causeAnalysis,
+               a.descriptionProblem,
+               a.temporarySolution,
+               a.longtermMeasures,
+               a.responsibleDepartment,
+               a.responsiblePerson,
+               a.plannedTime,
+               a.latestStatus,
+               a.actualTime,
+               a.feedbackValidators,
+               a.beginDate,
+               a.endDate,
+               a.createdAt,
+               a.updatedAt,
+               b.status,
+               b.company,
+               b.quantity,
+               c.projectName,
+               c.id as projectId,
+               c.projectNo,
+               b.trial_producer
+        from project_trial_production b
+                 left join project_trial_production_finalreport a on a.trialid = b.id
+                 left join start_project c on b.project_id = c.id
+    </sql>
+
+    <select id="selectProjectTrialProductionFinalreportList" parameterType="ProjectTrialProductionFinalreport"
+            resultMap="ProjectTrialProductionFinalreportResult">
+        <include refid="selectProjectTrialProductionFinalreportDto"/>
+        <where>
+            <if test="trialid != null ">and a.trialid = #{trialid}</if>
+            <if test="feedbackDepartment != null  and feedbackDepartment != ''">and a.feedbackDepartment =
+                #{feedbackDepartment}
+            </if>
+            <if test="issueLevel != null  and issueLevel != ''">and a.issueLevel = #{issueLevel}</if>
+            <if test="causeAnalysis != null  and causeAnalysis != ''">and a.causeAnalysis = #{causeAnalysis}</if>
+            <if test="descriptionProblem != null  and descriptionProblem != ''">and a.descriptionProblem =
+                #{descriptionProblem}
+            </if>
+            <if test="temporarySolution != null  and temporarySolution != ''">and a.temporarySolution =
+                #{temporarySolution}
+            </if>
+            <if test="longtermMeasures != null  and longtermMeasures != ''">and a.longtermMeasures =
+                #{longtermMeasures}
+            </if>
+            <if test="responsibleDepartment != null  and responsibleDepartment != ''">and a.responsibleDepartment =
+                #{responsibleDepartment}
+            </if>
+            <if test="responsiblePerson != null  and responsiblePerson != ''">and a.responsiblePerson =
+                #{responsiblePerson}
+            </if>
+            <if test="plannedTime != null ">and a.plannedTime = #{plannedTime}</if>
+            <if test="latestStatus != null  and latestStatus != ''">and a.latestStatus = #{latestStatus}</if>
+            <if test="actualTime != null ">and a.actualTime = #{actualTime}</if>
+            <if test="feedbackValidators != null  and feedbackValidators != ''">and a.feedbackValidators =
+                #{feedbackValidators}
+            </if>
+            <if test="createdAt != null ">and a.createdAt = #{createdAt}</if>
+            <if test="updatedAt != null ">and a.updatedAt = #{updatedAt}</if>
+        </where>
+    </select>
+
+    <select id="selectProjectTrialProductionFinalreportById" parameterType="Long"
+            resultMap="ProjectTrialProductionFinalreportResult">
+        <include refid="selectProjectTrialProductionFinalreportVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectProjectTrialProductionFinalreportByMainId" parameterType="Long"
+            resultMap="ProjectTrialProductionFinalreportResult">
+        <include refid="selectProjectTrialProductionFinalreportDto"/>
+        where b.id = #{id}
+    </select>
+
+    <insert id="insertProjectTrialProductionFinalreport" parameterType="ProjectTrialProductionFinalreport"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into project_trial_production_finalreport
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="trialid != null">trialid,</if>
+            <if test="feedbackDepartment != null">feedbackDepartment,</if>
+            <if test="issueLevel != null">issueLevel,</if>
+            <if test="causeAnalysis != null">causeAnalysis,</if>
+            <if test="descriptionProblem != null">descriptionProblem,</if>
+            <if test="temporarySolution != null">temporarySolution,</if>
+            <if test="longtermMeasures != null">longtermMeasures,</if>
+            <if test="responsibleDepartment != null">responsibleDepartment,</if>
+            <if test="responsiblePerson != null">responsiblePerson,</if>
+            <if test="plannedTime != null">plannedTime,</if>
+            <if test="latestStatus != null">latestStatus,</if>
+            <if test="actualTime != null">actualTime,</if>
+            <if test="feedbackValidators != null">feedbackValidators,</if>
+            <if test="beginDate != null">beginDate,</if>
+            <if test="endDate != null">endDate,</if>
+            <if test="createdAt != null">createdAt,</if>
+            <if test="updatedAt != null">updatedAt,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="trialid != null">#{trialid},</if>
+            <if test="feedbackDepartment != null">#{feedbackDepartment},</if>
+            <if test="issueLevel != null">#{issueLevel},</if>
+            <if test="causeAnalysis != null">#{causeAnalysis},</if>
+            <if test="descriptionProblem != null">#{descriptionProblem},</if>
+            <if test="temporarySolution != null">#{temporarySolution},</if>
+            <if test="longtermMeasures != null">#{longtermMeasures},</if>
+            <if test="responsibleDepartment != null">#{responsibleDepartment},</if>
+            <if test="responsiblePerson != null">#{responsiblePerson},</if>
+            <if test="plannedTime != null">#{plannedTime},</if>
+            <if test="latestStatus != null">#{latestStatus},</if>
+            <if test="actualTime != null">#{actualTime},</if>
+            <if test="feedbackValidators != null">#{feedbackValidators},</if>
+            <if test="beginDate != null">#{beginDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+        </trim>
+    </insert>
+
+    <update id="updateProjectTrialProductionFinalreport" parameterType="ProjectTrialProductionFinalreport">
+        update project_trial_production_finalreport
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="trialid != null">trialid = #{trialid},</if>
+            <if test="feedbackDepartment != null">feedbackDepartment = #{feedbackDepartment},</if>
+            <if test="issueLevel != null">issueLevel = #{issueLevel},</if>
+            <if test="causeAnalysis != null">causeAnalysis = #{causeAnalysis},</if>
+            <if test="descriptionProblem != null">descriptionProblem = #{descriptionProblem},</if>
+            <if test="temporarySolution != null">temporarySolution = #{temporarySolution},</if>
+            <if test="longtermMeasures != null">longtermMeasures = #{longtermMeasures},</if>
+            <if test="responsibleDepartment != null">responsibleDepartment = #{responsibleDepartment},</if>
+            <if test="responsiblePerson != null">responsiblePerson = #{responsiblePerson},</if>
+            <if test="plannedTime != null">plannedTime = #{plannedTime},</if>
+            <if test="latestStatus != null">latestStatus = #{latestStatus},</if>
+            <if test="actualTime != null">actualTime = #{actualTime},</if>
+            <if test="feedbackValidators != null">feedbackValidators = #{feedbackValidators},</if>
+            <if test="beginDate != null">beginDate = #{beginDate},</if>
+            <if test="endDate != null">endDate = #{endDate},</if>
+            <if test="createdAt != null">createdAt = #{createdAt},</if>
+            <if test="updatedAt != null">updatedAt = #{updatedAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProjectTrialProductionFinalreportById" parameterType="Long">
+        delete
+        from project_trial_production_finalreport
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteProjectTrialProductionFinalreportByIds" parameterType="String">
+        delete from project_trial_production_finalreport where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

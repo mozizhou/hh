@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.startproject.mapper.EquipmentUsageMapper">
+    
+    <resultMap type="EquipmentUsage" id="EquipmentUsageResult">
+        <result property="id"    column="id"    />
+        <result property="mainId"    column="main_id"    />
+        <result property="day"    column="day"    />
+        <result property="startTimeAm"    column="start_time_am"    />
+        <result property="stopTimeAm"    column="stop_time_am"    />
+        <result property="actualTimeAm"    column="actual_time_am"    />
+        <result property="startTimePm"    column="start_time_pm"    />
+        <result property="stopTimePm"    column="stop_time_pm"    />
+        <result property="actualTimePm"    column="actual_time_pm"    />
+        <result property="operation"    column="operation"    />
+        <result property="department"    column="department"    />
+        <result property="users"    column="users"    />
+        <result property="mark"    column="mark"    />
+    </resultMap>
+
+    <sql id="selectEquipmentUsageVo">
+        select id, main_id, day, start_time_am, stop_time_am, actual_time_am, start_time_pm, stop_time_pm, actual_time_pm, operation, department, users, mark from equipment_usage
+    </sql>
+
+    <select id="selectEquipmentUsageList" parameterType="EquipmentUsage" resultMap="EquipmentUsageResult">
+        <include refid="selectEquipmentUsageVo"/>
+        <where>  
+            <if test="mainId != null "> and main_id = #{mainId}</if>
+            <if test="day != null "> and day = #{day}</if>
+            <if test="startTimeAm != null "> and start_time_am = #{startTimeAm}</if>
+            <if test="stopTimeAm != null "> and stop_time_am = #{stopTimeAm}</if>
+            <if test="actualTimeAm != null "> and actual_time_am = #{actualTimeAm}</if>
+            <if test="startTimePm != null "> and start_time_pm = #{startTimePm}</if>
+            <if test="stopTimePm != null "> and stop_time_pm = #{stopTimePm}</if>
+            <if test="actualTimePm != null "> and actual_time_pm = #{actualTimePm}</if>
+            <if test="operation != null  and operation != ''"> and operation = #{operation}</if>
+            <if test="department != null  and department != ''"> and department = #{department}</if>
+            <if test="users != null  and users != ''"> and users = #{users}</if>
+            <if test="mark != null  and mark != ''"> and mark = #{mark}</if>
+        </where>
+    </select>
+    <select id="selectEquipmentUsageListByID"  resultMap="EquipmentUsageResult">
+        <include refid="selectEquipmentUsageVo"/> where main_id = #{mainId}
+    </select>
+    
+    <select id="selectEquipmentUsageById" parameterType="Long" resultMap="EquipmentUsageResult">
+        <include refid="selectEquipmentUsageVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertEquipmentUsage" parameterType="EquipmentUsage" useGeneratedKeys="true" keyProperty="id">
+        insert into equipment_usage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mainId != null">main_id,</if>
+            <if test="day != null">day,</if>
+            <if test="startTimeAm != null">start_time_am,</if>
+            <if test="stopTimeAm != null">stop_time_am,</if>
+            <if test="actualTimeAm != null">actual_time_am,</if>
+            <if test="startTimePm != null">start_time_pm,</if>
+            <if test="stopTimePm != null">stop_time_pm,</if>
+            <if test="actualTimePm != null">actual_time_pm,</if>
+            <if test="operation != null">operation,</if>
+            <if test="department != null">department,</if>
+            <if test="users != null">users,</if>
+            <if test="mark != null">mark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mainId != null">#{mainId},</if>
+            <if test="day != null">#{day},</if>
+            <if test="startTimeAm != null">#{startTimeAm},</if>
+            <if test="stopTimeAm != null">#{stopTimeAm},</if>
+            <if test="actualTimeAm != null">#{actualTimeAm},</if>
+            <if test="startTimePm != null">#{startTimePm},</if>
+            <if test="stopTimePm != null">#{stopTimePm},</if>
+            <if test="actualTimePm != null">#{actualTimePm},</if>
+            <if test="operation != null">#{operation},</if>
+            <if test="department != null">#{department},</if>
+            <if test="users != null">#{users},</if>
+            <if test="mark != null">#{mark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEquipmentUsage" parameterType="EquipmentUsage">
+        update equipment_usage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mainId != null">main_id = #{mainId},</if>
+            <if test="day != null">day = #{day},</if>
+            <if test="startTimeAm != null">start_time_am = #{startTimeAm},</if>
+            <if test="stopTimeAm != null">stop_time_am = #{stopTimeAm},</if>
+            <if test="actualTimeAm != null">actual_time_am = #{actualTimeAm},</if>
+            <if test="startTimePm != null">start_time_pm = #{startTimePm},</if>
+            <if test="stopTimePm != null">stop_time_pm = #{stopTimePm},</if>
+            <if test="actualTimePm != null">actual_time_pm = #{actualTimePm},</if>
+            <if test="operation != null">operation = #{operation},</if>
+            <if test="department != null">department = #{department},</if>
+            <if test="users != null">users = #{users},</if>
+            <if test="mark != null">mark = #{mark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEquipmentUsageById" parameterType="Long">
+        delete from equipment_usage where id = #{id}
+    </delete>
+
+    <delete id="deleteEquipmentUsageByIds" parameterType="String">
+        delete from equipment_usage where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteEquipmentUsageByMainId" parameterType="Long">
+        delete from equipment_usage where main_id = #{mainId}
+    </delete>
+</mapper>

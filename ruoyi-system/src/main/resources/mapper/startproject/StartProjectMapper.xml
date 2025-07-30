@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.startproject.mapper.StartProjectMapper">
+    <!-- 结果映射 -->
+    <resultMap id="StartProjectResult" type="com.ruoyi.startproject.domain.StartProject">
+        <id property="id" column="id"/>
+        <result property="company" column="company"/>
+        <result property="deptId" column="deptId"/>
+        <result property="createDate" column="createDate"/>
+        <result property="projectNo" column="projectNo"/>
+        <result property="projectName" column="projectName"/>
+        <result property="header" column="header"/>
+        <result property="innovation" column="innovation"/>
+        <result property="marketPosition" column="marketPosition"/>
+        <result property="innovationReq" column="innovationReq"/>
+        <result property="budgetAmount" column="budgetAmount"/>
+        <result property="annualSales" column="annualSales"/>
+        <result property="json" column="json"/>
+    </resultMap>
+
+    <select id="getStartProjectsFromDB" resultMap="StartProjectResult">
+        SELECT * FROM start_project
+        <where>
+            <if test="company != null and company !=''">
+                company = #{company}
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询所有项目 -->
+    <select id="selectStartProjectList" resultMap="StartProjectResult" parameterType="com.ruoyi.system.domain.vo.Query">
+        SELECT * FROM start_project
+        <where>
+            <if test="company != null and company !=''">
+                AND company = #{company}
+            </if>
+            <if test="projectName != null and projectName !=''">
+                AND projectName like concat('%', #{projectName}, '%')
+            </if>
+            <if test="projectNo != null and projectNo !=''">
+                AND projectNo like concat('%', #{projectNo}, '%')
+            </if>
+            <if test="header != null and header !=''">
+                AND header like concat('%', #{header}, '%')
+            </if>
+            <if test="id != null and id !=''">
+                AND id  = #{id}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(createDate,'%Y%m%d') &gt;= date_format(#{params.beginTime},'%Y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(createDate,'%Y%m%d') &lt;= date_format(#{params.endTime},'%Y%m%d')
+            </if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
+        </where>
+        order by id desc
+    </select>
+
+    <!-- 根据ID查询项目 -->
+    <select id="selectStartProjectById" parameterType="Long" resultMap="StartProjectResult">
+        SELECT * FROM start_project WHERE id = #{id}
+    </select>
+
+    <!-- 新增项目 -->
+    <insert id="insertStartProject" parameterType="StartProject">
+        INSERT INTO start_project (
+            company,
+            deptId,
+            createDate,
+            projectNo,
+            projectName,
+            header,
+            innovation,
+            marketPosition,
+            innovationReq,
+            budgetAmount,
+            annualSales,
+            json
+        ) VALUES (
+                     #{company},
+                     #{deptId},
+                     #{createDate},
+                     #{projectNo},
+                     #{projectName},
+                     #{header},
+                     #{innovation},
+                     #{marketPosition},
+                     #{innovationReq},
+                     #{budgetAmount},
+                     #{annualSales},
+                     #{json}
+                 )
+    </insert>
+
+    <!-- 更新项目 -->
+    <update id="updateStartProject" parameterType="StartProject">
+        UPDATE start_project
+        SET
+            company = #{company},
+            deptId = #{deptId},
+            createDate = #{createDate},
+            projectNo = #{projectNo},
+            projectName = #{projectName},
+            header = #{header},
+            innovation = #{innovation},
+            marketPosition = #{marketPosition},
+            innovationReq = #{innovationReq},
+            budgetAmount = #{budgetAmount},
+            annualSales = #{annualSales},
+            json = #{json}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除项目 -->
+    <delete id="deleteStartProjectById" parameterType="Long">
+        DELETE FROM start_project WHERE id = #{id}
+    </delete>
+    <select id="selectStartProjectByProjectId" parameterType="Long" resultMap="StartProjectResult">
+        SELECT top(1) header,innovation,marketPosition,innovationReq,budgetAmount,annualSales
+        FROM start_project
+    </select>
+
+</mapper>

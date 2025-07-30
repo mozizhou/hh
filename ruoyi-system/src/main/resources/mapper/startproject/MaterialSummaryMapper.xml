@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.startproject.mapper.MaterialSummaryMapper">
+    
+    <resultMap type="MaterialSummary" id="MaterialSummaryResult">
+        <result property="id"    column="id"    />
+        <result property="company"    column="company"    />
+        <result property="year"    column="year"    />
+        <result property="mouth"    column="mouth"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="picker"    column="picker"    />
+        <result property="name"    column="name"    />
+        <result property="unit"    column="unit"    />
+        <result property="total"    column="total"    />
+        <result property="totalAmount"    column="total_amount"    />
+        <result property="hasChildren"    column="has_children"    />
+        <result property="price" column="price"/>
+        <result property="days" column="days"/>
+    </resultMap>
+
+    <sql id="selectMaterialSummaryVo">
+        select id, company, year, mouth, project_name, picker, name, unit, total, total_amount,price,days from material_summary
+    </sql>
+
+    <select id="selectMaterialSummaryList" parameterType="MaterialSummary" resultMap="MaterialSummaryResult">
+        <include refid="selectMaterialSummaryVo"/>
+        <where>  
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+            <if test="year != null  and year != ''"> and year = #{year}</if>
+            <if test="mouth != null  and mouth != ''"> and mouth = #{mouth}</if>
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+        </where>
+    </select>
+    <select id="selectMaterialSummaryListAll" parameterType="MaterialSummary" resultMap="MaterialSummaryResult">
+        select  company, year, sum(total) as total, sum(total_amount) as total_amount,1 as has_children from material_summary
+        <where>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+            <if test="year != null  and year != ''"> and year = #{year}</if>
+            <if test="mouth != null  and mouth != ''"> and mouth = #{mouth}</if>
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+        </where>
+        group by company, year
+    </select>
+    <select id="selectMaterialSummaryListByYear" parameterType="MaterialSummary" resultMap="MaterialSummaryResult">
+        select  company, year,mouth, sum(total) as total, sum(total_amount) as total_amount,1 as has_children from material_summary
+        <where>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+            <if test="year != null  and year != ''"> and year = #{year}</if>
+            <if test="mouth != null  and mouth != ''"> and mouth = #{mouth}</if>
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+        </where>
+        group by company, year, mouth
+    </select>
+    <select id="selectMaterialSummaryListByMouth" parameterType="MaterialSummary" resultMap="MaterialSummaryResult">
+        select  company, year,mouth,project_name, sum(total) as total, sum(total_amount) as total_amount,1 as has_children from material_summary
+        <where>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+            <if test="year != null  and year != ''"> and year = #{year}</if>
+            <if test="mouth != null  and mouth != ''"> and mouth = #{mouth}</if>
+            <if test="projectName != null  and projectName != ''"> and project_name like concat('%', #{projectName}, '%')</if>
+        </where>
+        group by company, year, mouth, project_name
+    </select>
+    
+    <select id="selectMaterialSummaryById" parameterType="Long" resultMap="MaterialSummaryResult">
+        <include refid="selectMaterialSummaryVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertMaterialSummary" parameterType="MaterialSummary" useGeneratedKeys="true" keyProperty="id">
+        insert into material_summary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="company != null and company != ''">company,</if>
+            <if test="year != null and year != ''">year,</if>
+            <if test="mouth != null and mouth != ''">mouth,</if>
+            <if test="projectName != null">project_name,</if>
+            <if test="picker != null">picker,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="unit != null and unit != ''">unit,</if>
+            <if test="total != null">total,</if>
+            <if test="totalAmount != null">total_amount,</if>
+            <if test="price != null">price,</if>
+            <if test="days != null and days != ''">days,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="company != null and company != ''">#{company},</if>
+            <if test="year != null and year != ''">#{year},</if>
+            <if test="mouth != null and mouth != ''">#{mouth},</if>
+            <if test="projectName != null">#{projectName},</if>
+            <if test="picker != null">#{picker},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="unit != null and unit != ''">#{unit},</if>
+            <if test="total != null">#{total},</if>
+            <if test="totalAmount != null">#{totalAmount},</if>
+            <if test="price != null">#{price},</if>
+            <if test="days != null and days != ''"> #{days},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMaterialSummary" parameterType="MaterialSummary">
+        update material_summary
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="company != null and company != ''">company = #{company},</if>
+            <if test="year != null and year != ''">year = #{year},</if>
+            <if test="mouth != null and mouth != ''">mouth = #{mouth},</if>
+            <if test="projectName != null">project_name = #{projectName},</if>
+            <if test="picker != null">picker = #{picker},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="unit != null and unit != ''">unit = #{unit},</if>
+            <if test="total != null">total = #{total},</if>
+            <if test="totalAmount != null">total_amount = #{totalAmount},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="days !=null and days !=''"> days = #{days},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMaterialSummaryById" parameterType="Long">
+        delete from material_summary where id = #{id}
+    </delete>
+
+    <delete id="deleteMaterialSummaryByIds" parameterType="String">
+        delete from material_summary where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

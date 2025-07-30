@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.startproject.mapper.FinalProjectReviewMapper">
+    
+    <resultMap type="FinalProjectReview" id="FinalProjectReviewResult">
+        <result property="id"    column="id"    />
+        <result property="company"    column="company"    />
+        <result property="projectNo"    column="projectNo"    />
+        <result property="projectName"    column="projectName"    />
+        <result property="header"    column="header"    />
+        <result property="synopsis"    column="synopsis"    />
+        <result property="price"    column="price"    />
+        <result property="trialProduction"    column="trialProduction"    />
+        <result property="procurementProduction"    column="procurementProduction"    />
+        <result property="drawingReviewOpinions"    column="drawingReviewOpinions"    />
+        <result property="conclusions"    column="conclusions"    />
+        <result property="file"    column="file"    />
+        <result property="herderOpinion"    column="herderOpinion"    />
+        <result property="managerOption"    column="managerOption"    />
+        <result property="projectid"    column="projectid"    />
+        <result property="status"    column="status"    />
+        <result property="createDate"    column="createDate"    />
+        <result property="unit"    column="unit"    />
+    </resultMap>
+
+    <sql id="selectFinalProjectReviewVo">
+        select id, company, projectNo, projectName, header, synopsis, price, trialProduction, procurementProduction, drawingReviewOpinions, conclusions, file, herderOpinion, managerOption, projectid, status,unit from final_project_review
+    </sql>
+
+    <select id="selectFinalProjectReviewList" parameterType="FinalProjectReview" resultMap="FinalProjectReviewResult">
+        select a.id, b.company, b.projectNo, b.projectName, b.header, a.synopsis, a.price, a.trialProduction, a.procurementProduction, a.drawingReviewOpinions, a.conclusions, a.file, a.herderOpinion, a.managerOption, a.projectid, a.status,b.createDate,a.unit from final_project_review a
+        left join start_project b on a.projectid = b.id
+        <where>
+            <if test="id != null  and id != ''"> and a.id = #{id}</if>
+            <if test="company != null  and company != ''"> and b.company = #{company}</if>
+            <if test="projectNo != null  and projectNo != ''"> and b.projectNo like concat('%', #{projectNo}, '%')</if>
+            <if test="projectName != null  and projectName != ''"> and b.projectName like concat('%', #{projectName}, '%')</if>
+            <if test="header != null  and header != ''"> and b.header like concat('%', #{header}, '%')</if>
+            <if test="synopsis != null  and synopsis != ''"> and a.synopsis = #{synopsis}</if>
+            <if test="price != null "> and a.price = #{price}</if>
+            <if test="trialProduction != null  and trialProduction != ''"> and a.trialProduction = #{trialProduction}</if>
+            <if test="procurementProduction != null  and procurementProduction != ''"> and a.procurementProduction = #{procurementProduction}</if>
+            <if test="drawingReviewOpinions != null  and drawingReviewOpinions != ''"> and a.drawingReviewOpinions = #{drawingReviewOpinions}</if>
+            <if test="conclusions != null  and conclusions != ''"> and a.conclusions = #{conclusions}</if>
+            <if test="file != null  and file != ''"> and a.file = #{file}</if>
+            <if test="herderOpinion != null  and herderOpinion != ''"> and a.herderOpinion = #{herderOpinion}</if>
+            <if test="managerOption != null  and managerOption != ''"> and a.managerOption = #{managerOption}</if>
+            <if test="projectid != null "> and a.projectid = #{projectid}</if>
+            <if test="status != null "> and a.status = #{status}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(b.createDate,'%Y%m%d') &gt;= date_format(#{params.beginTime},'%Y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(b.createDate,'%Y%m%d') &lt;= date_format(#{params.endTime},'%Y%m%d')
+            </if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
+        </where>
+    </select>
+    
+    <select id="selectFinalProjectReviewById" parameterType="Long" resultMap="FinalProjectReviewResult">
+        select a.id, b.company, b.projectNo, b.projectName, b.header, a.synopsis, a.price, a.trialProduction, a.procurementProduction, a.drawingReviewOpinions, a.conclusions, a.file, a.herderOpinion, a.managerOption, a.projectid, a.status,a.unit from final_project_review a
+        left join start_project b on a.projectid = b.id
+        where a.id = #{id}
+    </select>
+
+    <insert id="insertFinalProjectReview" parameterType="FinalProjectReview" useGeneratedKeys="true" keyProperty="id">
+        insert into final_project_review
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="company != null">company,</if>
+            <if test="projectNo != null">projectNo,</if>
+            <if test="projectName != null">projectName,</if>
+            <if test="header != null">header,</if>
+            <if test="synopsis != null">synopsis,</if>
+            <if test="price != null">price,</if>
+            <if test="trialProduction != null">trialProduction,</if>
+            <if test="procurementProduction != null">procurementProduction,</if>
+            <if test="drawingReviewOpinions != null">drawingReviewOpinions,</if>
+            <if test="conclusions != null">conclusions,</if>
+            <if test="file != null">file,</if>
+            <if test="herderOpinion != null">herderOpinion,</if>
+            <if test="managerOption != null">managerOption,</if>
+            <if test="projectid != null">projectid,</if>
+            <if test="status != null">status,</if>
+            <if test="unit != null">unit,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="company != null">#{company},</if>
+            <if test="projectNo != null">#{projectNo},</if>
+            <if test="projectName != null">#{projectName},</if>
+            <if test="header != null">#{header},</if>
+            <if test="synopsis != null">#{synopsis},</if>
+            <if test="price != null">#{price},</if>
+            <if test="trialProduction != null">#{trialProduction},</if>
+            <if test="procurementProduction != null">#{procurementProduction},</if>
+            <if test="drawingReviewOpinions != null">#{drawingReviewOpinions},</if>
+            <if test="conclusions != null">#{conclusions},</if>
+            <if test="file != null">#{file},</if>
+            <if test="herderOpinion != null">#{herderOpinion},</if>
+            <if test="managerOption != null">#{managerOption},</if>
+            <if test="projectid != null">#{projectid},</if>
+            <if test="status != null">#{status},</if>
+            <if test="unit != null">#{unit},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFinalProjectReview" parameterType="FinalProjectReview">
+        update final_project_review
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="company != null">company = #{company},</if>
+            <if test="projectNo != null">projectNo = #{projectNo},</if>
+            <if test="projectName != null">projectName = #{projectName},</if>
+            <if test="header != null">header = #{header},</if>
+            <if test="synopsis != null">synopsis = #{synopsis},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="trialProduction != null">trialProduction = #{trialProduction},</if>
+            <if test="procurementProduction != null">procurementProduction = #{procurementProduction},</if>
+            <if test="drawingReviewOpinions != null">drawingReviewOpinions = #{drawingReviewOpinions},</if>
+            <if test="conclusions != null">conclusions = #{conclusions},</if>
+            <if test="file != null">file = #{file},</if>
+            <if test="herderOpinion != null">herderOpinion = #{herderOpinion},</if>
+            <if test="managerOption != null">managerOption = #{managerOption},</if>
+            <if test="projectid != null">projectid = #{projectid},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="unit != null">unit = #{unit},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFinalProjectReviewById" parameterType="Long">
+        delete from final_project_review where id = #{id}
+    </delete>
+
+    <delete id="deleteFinalProjectReviewByIds" parameterType="String">
+        delete from final_project_review where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

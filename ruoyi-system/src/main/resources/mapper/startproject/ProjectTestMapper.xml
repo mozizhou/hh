@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.startproject.mapper.ProjectTestMapper">
+    
+    <resultMap type="ProjectTest" id="ProjectTestResult">
+        <result property="id"    column="id"    />
+        <result property="company"    column="company"    />
+        <result property="createDate"    column="createDate"    />
+        <result property="projectName"    column="projectName"    />
+        <result property="projectId"    column="projectId"    />
+        <result property="testPurpose"    column="testPurpose"    />
+        <result property="testConditions"    column="testConditions"    />
+        <result property="equipment"    column="equipment"    />
+        <result property="procedures"    column="procedures"    />
+        <result property="operateAndPhenomenonAndData"    column="operateAndPhenomenonAndData"    />
+        <result property="testResult"    column="testResult"    />
+        <result property="experimenters"    column="experimenters"    />
+        <result property="status"    column="status"    />
+        <result property="projectNo"    column="projectNo"    />
+    </resultMap>
+
+    <sql id="selectProjectTestVo">
+        select id, company, createDate, projectName, projectId, testPurpose, testConditions, equipment, procedures, operateAndPhenomenonAndData, testResult, experimenters, status from project_test
+    </sql>
+
+    <select id="selectProjectTestList" parameterType="ProjectTest" resultMap="ProjectTestResult">
+        select a.id, a.company, a.createDate, a.projectName, a.projectId, a.testPurpose, a.testConditions, a.equipment, a.procedures, a.operateAndPhenomenonAndData, a.testResult, a.experimenters, a.status,b.projectNo from project_test a
+        left join start_project b on a.projectId = b.id
+        <where>  
+            <if test="company != null  and company != ''"> and a.company = #{company}</if>
+            <if test="params.beginTime != null and params.beginTime != ''">
+                AND a.createDate &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''">
+                AND a.createDate &lt;= #{params.endTime}
+            </if>
+            <if test="projectName != null  and projectName != ''"> and b.projectName like concat('%', #{projectName}, '%')</if>
+            <if test="projectId != null  and projectId != ''"> and a.projectId = #{projectId}</if>
+            <if test="testPurpose != null  and testPurpose != ''"> and a.testPurpose = #{testPurpose}</if>
+            <if test="testConditions != null  and testConditions != ''"> and a.testConditions = #{testConditions}</if>
+            <if test="equipment != null  and equipment != ''"> and a.equipment = #{equipment}</if>
+            <if test="procedures != null  and procedures != ''"> and a.procedures = #{procedures}</if>
+            <if test="operateAndPhenomenonAndData != null  and operateAndPhenomenonAndData != ''"> and a.operateAndPhenomenonAndData = #{operateAndPhenomenonAndData}</if>
+            <if test="testResult != null  and testResult != ''"> and a.testResult like concat('%', #{testResult}, '%')</if>
+            <if test="experimenters != null  and experimenters != ''"> and a.experimenters = #{experimenters}</if>
+            <if test="status != null  and status != ''"> and a.status = #{status}</if>
+        </where>
+        order by a.createDate
+    </select>
+    <select id="selectProjectTestListByMain" parameterType="ProjectTest" resultMap="ProjectTestResult">
+        select a.company, a.createDate, a.projectName, a.projectId, a.equipment, a.experimenters  from project_test a
+        <where>
+            <if test="company != null  and company != ''"> and a.company = #{company}</if>
+            <if test="projectId != null  and projectId != ''"> and a.projectId = #{projectId}</if>
+        </where>
+        order by a.createDate desc
+    </select>
+    
+    <select id="selectProjectTestById" parameterType="Long" resultMap="ProjectTestResult">
+        <include refid="selectProjectTestVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertProjectTest" parameterType="ProjectTest">
+        insert into project_test
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="company != null and company != ''">company,</if>
+            <if test="createDate != null">createDate,</if>
+            <if test="projectName != null and projectName != ''">projectName,</if>
+            <if test="projectId != null and projectId != ''">projectId,</if>
+            <if test="testPurpose != null and testPurpose != ''">testPurpose,</if>
+            <if test="testConditions != null">testConditions,</if>
+            <if test="equipment != null">equipment,</if>
+            <if test="procedures != null">procedures,</if>
+            <if test="operateAndPhenomenonAndData != null">operateAndPhenomenonAndData,</if>
+            <if test="testResult != null">testResult,</if>
+            <if test="experimenters != null">experimenters,</if>
+            <if test="status != null">,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="company != null and company != ''">#{company},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="projectName != null and projectName != ''">#{projectName},</if>
+            <if test="projectId != null and projectId != ''">#{projectId},</if>
+            <if test="testPurpose != null and testPurpose != ''">#{testPurpose},</if>
+            <if test="testConditions != null">#{testConditions},</if>
+            <if test="equipment != null">#{equipment},</if>
+            <if test="procedures != null">#{procedures},</if>
+            <if test="operateAndPhenomenonAndData != null">#{operateAndPhenomenonAndData},</if>
+            <if test="testResult != null">#{testResult},</if>
+            <if test="experimenters != null">#{experimenters},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProjectTest" parameterType="ProjectTest">
+        update project_test
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="company != null and company != ''">company = #{company},</if>
+            <if test="createDate != null">createDate = #{createDate},</if>
+            <if test="projectName != null and projectName != ''">projectName = #{projectName},</if>
+            <if test="projectId != null and projectId != ''">projectId = #{projectId},</if>
+            <if test="testPurpose != null and testPurpose != ''">testPurpose = #{testPurpose},</if>
+            <if test="testConditions != null">testConditions = #{testConditions},</if>
+            <if test="equipment != null">equipment = #{equipment},</if>
+            <if test="procedures != null">procedures = #{procedures},</if>
+            <if test="operateAndPhenomenonAndData != null">operateAndPhenomenonAndData = #{operateAndPhenomenonAndData},</if>
+            <if test="testResult != null">testResult = #{testResult},</if>
+            <if test="experimenters != null">experimenters = #{experimenters},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProjectTestById" parameterType="Long">
+        delete from project_test where id = #{id}
+    </delete>
+
+    <delete id="deleteProjectTestByIds" parameterType="String">
+        delete from project_test where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectProjectTestListByProjectId" parameterType="Long" resultMap="ProjectTestResult">
+        <include refid="selectProjectTestVo"/>
+        where projectId = #{projectId}
+    </select>
+</mapper>
